@@ -15,13 +15,14 @@ Replace KEYCLOAK-HOST, REALM-NAME, CLIENT-ID, CLIENT-SECRET in the auth.py file 
 keycloak_realm_url = 'https://<KEYCLOAK-HOST>/auth/realms/<REALM-NAME>/'
 client_id = '<CLIENT-ID>'
 client_secret = '<CLIENT-SECRET>'
-token_endpoint = keycloak_realm_url + 'protocol/openid-connect/token'
 ```
 
 Execute the script to get access grants
 ```shell
 python auth.py
 ```
+
+## ACCESS_TOKEN environment variable used by CURL
 
 A convenient bash script was created to set the environment variable ACCESS_TOKEN that can be used in subsequent API calls.
 ```shell
