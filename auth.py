@@ -35,14 +35,14 @@ def getAccessTokenFromDatastoreOrRefresh():
                 print("Re-use access token found in datastore " + datastore_filename + ", valid till " + time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(expirationTime)) + " (" + str(expirationTime) + ")" )
                 return datastore["access_token"]
             else:
-                return getAccessTokenBasedOnRefreshToken(datastore)
+                return requestAccessTokenBasedOnRefreshToken(datastore)
     else:
         return None
 
 #Gets an access token based on the refresh token 
 #If an error occurs the datastore is deleted
 #TODO should be called only if refresh token expiration time is still valid
-def getAccessTokenBasedOnRefreshToken(datastore) : 
+def requestAccessTokenBasedOnRefreshToken(datastore) : 
     print("Using refresh token to get a new access token (refresh token is valid for " + str(int(datastore["refresh_expires_in"]) / 60) + " minutes)")
     refresh_token = datastore["refresh_token"]
     payload = {
@@ -63,7 +63,7 @@ def getAccessTokenBasedOnRefreshToken(datastore) :
         return saveTokensAndGetAccessToken(r)
 
 #Gets an access token based on user credentials (when no datastore found)
-def getAccessTokenBasedOnUserCredentials() : 
+def requestAccessTokenBasedOnUserCredentials() : 
     print("No refresh_token found on datastore (" + datastore_filename + "), therefore user credentials will be prompted")
     user = raw_input("username:")
     passwd = getpass.getpass("password:")
@@ -88,7 +88,7 @@ def getAccessTokenBasedOnUserCredentials() :
 def getValidAccessToken() : 
     accessToken = getAccessTokenFromDatastoreOrRefresh()
     if (accessToken == None) :
-        return getAccessTokenBasedOnUserCredentials()
+        return requestAccessTokenBasedOnUserCredentials()
     return accessToken
 
 #Utility method to save access and refresh token
