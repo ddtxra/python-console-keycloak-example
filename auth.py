@@ -84,7 +84,7 @@ def getAccessTokenBasedOnUserCredentials() :
         return saveTokensAndGetAccessToken(r)
 
 
-#Attemps to get an access token, first from the datastore and if the 
+#Attemps to get an access token, first from the datastore and if not present credentials will be asked 
 def getValidAccessToken() : 
     accessToken = getAccessTokenFromDatastoreOrRefresh()
     if (accessToken == None) :
@@ -92,7 +92,7 @@ def getValidAccessToken() :
     return accessToken
 
 #Utility method to save access and refresh token
-#Additionaly expiration_time is based on the current time and the expires_in field
+#Additionaly expiration_time is computed, based on the current time and the expires_in field
 def saveTokensAndGetAccessToken(response):
     print("Saving tokens information to datastore: " + datastore_filename)
     tokens = response.json()
