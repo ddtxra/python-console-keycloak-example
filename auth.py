@@ -5,9 +5,9 @@ import time, getpass, requests, os.path, json, sys
 datastore_filename = 'tokens.json'
 
 # Configuration (REPLACE WITH YOUR SETTINGS)
-keycloak_realm_url = 'https://<KEYCLOAK-HOST>/auth/realms/<REALM-NAME>/'
-client_id = '<CLIENT-ID>'
-client_secret = '<CLIENT-SECRET>'
+keycloak_realm_url = 'https://devmaster.vital-it.ch/auth/realms/SIB-AAI/'
+client_id = 'sib-confluence'
+client_secret = 'd9b1500b-cffe-4791-9828-44b46a32b9cf'
 
 #Request Keycloak for the 'token endpoint', this method is optional because, the endpoint is generally well known
 def requestTokenEndPoint():
