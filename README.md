@@ -9,26 +9,26 @@ Create a new OIDC client in keycloak, with "Access Type" set to "confidential" a
 Click again on the client and go under Credentials tab, you will see the secret.
 
 ## Python script configuration
-Replace KEYCLOAK-HOST, REALM-NAME, CLIENT-ID, CLIENT-SECRET in the auth.py file with the info given by keycloak
-
-```code
-keycloak_realm_url = 'https://<KEYCLOAK-HOST>/auth/realms/<REALM-NAME>/'
-client_id = '<CLIENT-ID>'
-client_secret = '<CLIENT-SECRET>'
+Copy keycloak.json.template to keycloak.json or to any file name and change the values according to your environment.
+Optionallay pass the filename as argument. If no config file is passed, then 'keycloak.json' will be the default one.
+```shell
+python KCAuth.py <keycloak_config_jsonfile>
 ```
 
-Execute the script to get access grants
-```shell
-python auth.py
+## Developers
+Usage of the library
+```python
+import KCAuth
+
+kcAuth = KCAuth("keycloak.json")
+kcAuth.getAccessToken()
 ```
 
-## ACCESS_TOKEN environment variable used by CURL
+## Curl usage
 
-A convenient bash script was created to set the environment variable ACCESS_TOKEN that can be used in subsequent API calls.
 ```shell
-#Sets an environment variable ACCESS_TOKEN that can be used in the curl script below
-source setenv-with-access-token.sh
-
-#Change the curl to access your protected resource
-curl -H "Authorization: Bearer $ACCESS_TOKEN" "http://localhost:8080/my-protected-resource"
+ACCESS_TOKEN=<copy-your-access-token-from-the-python-script>
+#Use the access token as follows
+RESOURCE_URL=http://localhost:8080/my-protected-resource
+curl -H "Authorization: Bearer $ACCESS_TOKEN" $RESOURCE_URL
 ```

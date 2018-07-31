@@ -1,0 +1,9 @@
+{
+    "realm": "demo",
+    "resource": "demo-service",
+    "auth-server-url": "http://localhost:8080/auth",
+    "credentials": {
+        "secret": "some-secret-if-defined-as-confidential"
+    }
+}
+

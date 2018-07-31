@@ -74,7 +74,7 @@ class KCAuth:
 
 
     #Attemps to get an access token, first from the datastore and if not present credentials will be asked 
-    def getValidAccessToken(self):
+    def getAccessToken(self):
         accessToken = self.getAccessTokenFromDatastoreOrRefresh()
         if (accessToken == None):
             return self.requestAccessTokenBasedOnUserCredentials()
@@ -121,7 +121,14 @@ class KCAuth:
         self.token_endpoint = ""
 
 if __name__ == '__main__':
-    kcauth = KCAuth("keycloak.json")
-    accessToken = kcauth.getValidAccessToken()
+    if(len(sys.argv) == 2):
+        print("Using configuration file " + sys.argv[1])
+        kcauth = KCAuth(sys.argv[1])
+    else:
+        defaultKeycloakFile = "keycloak.json"
+        print("Keycloak configuration not passed as argument, taking default file name: " + defaultKeycloakFile)
+        kcauth = KCAuth("keycloak.json")
+
+    accessToken = kcauth.getAccessToken()
     print("\nYour access token:")
     print(accessToken)
