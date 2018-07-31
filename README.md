@@ -18,7 +18,7 @@ python KCAuth.py <filename>
 ## Developers
 Usage of the library
 ```python
-import KCAuth
+from KCAuth import KCAuth
 
 kcAuth = KCAuth("keycloak.json")
 kcAuth.getAccessToken()
