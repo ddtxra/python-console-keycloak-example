@@ -1,0 +1,1 @@
+rm .kc.keycloak.*

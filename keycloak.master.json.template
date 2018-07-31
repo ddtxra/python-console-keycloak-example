@@ -1,0 +1,6 @@
+{
+    "realm": "master",
+    "resource": "admin-cli",
+    "auth-server-url": "http://localhost:8080/auth"
+}
+

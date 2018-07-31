@@ -33,7 +33,7 @@ class KCAuth:
         }
 
         #Add secret if configured
-        if(self.secret):
+        if(len(self.secret) > 0):
             payload["client_secret"] = self.secret
 
         r = requests.post(self.getOrRequestTokenEndPoint(), data=payload)
@@ -50,7 +50,7 @@ class KCAuth:
     #Gets an access token based on user credentials (when no datastore found)
     def requestAccessTokenBasedOnUserCredentials(self) : 
         print("No refresh_token found on datastore (" + self.datastore_filename + "), therefore user credentials will be prompted")
-        user = raw_input("username:")
+        user = raw_input("username for " + self.realm + " realm:")
         passwd = getpass.getpass("password:")
         payload = {
             "username": user, 
@@ -60,7 +60,7 @@ class KCAuth:
         }
 
         #Add secret if configured
-        if(self.secret):
+        if(len(self.secret) > 0):
             payload["client_secret"] = self.secret
 
         r = requests.post(self.getOrRequestTokenEndPoint(), data=payload)
@@ -96,7 +96,7 @@ class KCAuth:
     def getOrRequestTokenEndPoint(self):
         #Assign it only once if needed
         if(len(self.token_endpoint) < 10):
-            print ("Asking well known configuration about token endpoint (to retrieve access tokens)")
+            print ("Asking .well-known openid-configuration about token_endpoint (to retrieve access tokens)")
             r = requests.get(self.keycloak_realm_url + '.well-known/openid-configuration')
             print("Requesting: " + self.keycloak_realm_url + '.well-known/openid-configuration')
             token_endpoint = r.json()["token_endpoint"]
@@ -105,6 +105,8 @@ class KCAuth:
         
         return self.token_endpoint
 
+    def getAuthServerUrl(self):
+        return self.auth_server_url
     
     def __init__(self, configKcFile):
         with open(configKcFile) as f:
@@ -117,7 +119,10 @@ class KCAuth:
         self.realm = data["realm"]
         self.keycloak_realm_url = self.auth_server_url + "/realms/" + self.realm + "/"
         self.client_id = data["resource"]
-        self.secret = data["credentials"]["secret"]
+        if("credentials" in data):
+            self.secret = data["credentials"]["secret"]
+        else:
+            self.secret = ""
         self.token_endpoint = ""
 
 if __name__ == '__main__':
